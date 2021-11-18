@@ -13,7 +13,8 @@ class Usercontroller extends Controller
             "name"=>[
                 "Arpan",
                 "Arnab",
-                "Anurag"
+                "Anurag",
+                "Rakesh"
             ]
             ];
         return view('user',$data);
