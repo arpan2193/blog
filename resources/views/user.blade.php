@@ -1,4 +1,6 @@
-@include('header')
+@extends('layouts.app')
+
+	@section('content')
     <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -17,8 +19,8 @@
                 <td>{{$user['created_at']}}</td>
                 <td>{{$user['updated_at']}}</td>
                 <td>
-                    <a onclick="editUser({{$user['id']}})" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" >&#xE254;</i></a>
-                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete" onclick="deleteUser({{$user['id']}})">&#xE872;</i></a>
+                    <a href="#editEmployeeModal" onclick="editUser('{{$user['id']}}')" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" >&#xE254;</i></a>
+                    <a href="#deleteEmployeeModal" class="delete" onclick="deleteUser('{{$user['id']}}')" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete" >&#xE872;</i></a>
                 </td>
             </tr>
             @endforeach
@@ -26,7 +28,7 @@
     </table>
 </div>
 <input type="hidden" value="{{ route('add.user') }}" id="addUrl">
-<input type="hidden" value="{{ csrf_token() }}" id="csrf_token">
+
 <div id="addEmployeeModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -59,12 +61,13 @@
 	</div>
 </div>
 <!-- Edit Modal HTML -->
+<input type="hidden" value="{{ route('get.user') }}" id="editUrl">
 <div id="editEmployeeModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form>
-                <input type="hidden" value="{{ route('get.user') }}" id="editUrl">
-                <input type="hidden" id="editId">
+                <input type="hidden" id="updateUrl" value = "{{route('update.user')}}">
+                <input type="hidden" id="editId" value="">
 				<div class="modal-header">						
 					<h4 class="modal-title">Edit User</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -85,7 +88,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="button" class="btn btn-info" value="Save" id="editUser">
+					<input type="button" class="btn btn-info" value="Save" id="updateUser">
                     
 				</div>
 			</form>
@@ -97,6 +100,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form>
+				<input type="hidden" id="deleteUrl" value = "{{route('delete.user')}}">
+				<input type="hidden" id="deleteId" value = "">
 				<div class="modal-header">						
 					<h4 class="modal-title">Delete User</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -107,29 +112,20 @@
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-danger" value="Delete">
+					<input type="button" class="btn btn-danger" value="Delete" id="deleteUser">
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
-@include('footer')
+@endsection
+@push('styles')
+<style>
+    h1 {
+		background-color: red;
+	}
+	</style>
+@endpush
 
-<script>
-function editUser(id) {
-
-let url = $("#editUrl").val();
-$.post(url, {
-    id: id,
-    _method: 'POST',
-    _token: csrf_token
-}, null, 'text')
-    .done(function (response) {
-        console.log(response);
-        var res = JSON.parse(response);
-        console.log(res);
-
-    });
-}
-
-</script>
+@push('scripts')
+@endpush

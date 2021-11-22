@@ -20,5 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[Usercontroller::class,'index'])->name('home');
 
 Route::post('/user/add',[Usercontroller::class,'addData'])->name('add.user');
-Route::get('/user/get',[Usercontroller::class,'getData'])->name('get.user');
+Route::post('/user/get',[Usercontroller::class,'getData'])->name('get.user');
+Route::post('/user/update',[Usercontroller::class,'updateData'])->name('update.user');
+Route::post('/user/delete',[Usercontroller::class,'deleteUser'])->name('delete.user');
 
